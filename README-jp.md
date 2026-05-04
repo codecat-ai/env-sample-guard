@@ -63,6 +63,19 @@ env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
 接頭辞による無視は、使用済み、宣言済み、欠落、古い変数の結果から一致する
 変数名を除外します。
 
+1 つ以上のプレーンテキストファイルから無視ルールを読み込みます。
+
+```bash
+env-sample-guard check --ignore-file .env-sample-guard-ignore
+env-sample-guard check --ignore-file local.ignore --ignore-file ci.ignore
+```
+
+空行と、最初の非空白文字が `#` の行はスキップされます。それ以外の行は前後の
+空白を取り除いて扱います。`*` で終わる行は接頭辞の無視になり、`GITHUB_*` は
+`--ignore-prefix GITHUB_` と同じ意味です。それ以外の行は `LOCAL_ONLY` のような
+完全一致の変数名として無視されます。ファイルの無視ルールは `--ignore` と
+`--ignore-prefix` と組み合わせて使えます。
+
 ## 開発
 
 ```bash

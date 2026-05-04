@@ -78,6 +78,19 @@ env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
 Prefix ignores exclude matching variable names from used, declared, missing, and
 stale results.
 
+Load ignores from one or more plain-text files:
+
+```bash
+env-sample-guard check --ignore-file .env-sample-guard-ignore
+env-sample-guard check --ignore-file local.ignore --ignore-file ci.ignore
+```
+
+Blank lines and lines whose first non-space character is `#` are skipped.
+Other lines are stripped. Lines ending in `*` ignore matching prefixes, so
+`GITHUB_*` behaves like `--ignore-prefix GITHUB_`; other lines ignore exact
+variable names, such as `LOCAL_ONLY`. File-based ignores combine with
+`--ignore` and `--ignore-prefix`.
+
 ## Exit Codes
 
 - `0`: no missing variables were found; stale variables are advisory unless

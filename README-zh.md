@@ -59,6 +59,18 @@ env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
 
 前缀忽略会从已使用、已声明、缺失和过期结果中排除匹配的变量名。
 
+从一个或多个纯文本文件加载忽略规则：
+
+```bash
+env-sample-guard check --ignore-file .env-sample-guard-ignore
+env-sample-guard check --ignore-file local.ignore --ignore-file ci.ignore
+```
+
+空行，以及第一个非空白字符为 `#` 的行会被跳过。其他行会先去除首尾空白。
+以 `*` 结尾的行表示忽略前缀，因此 `GITHUB_*` 等同于
+`--ignore-prefix GITHUB_`；其他行表示精确变量名，例如 `LOCAL_ONLY`。
+文件中的忽略规则会与 `--ignore` 和 `--ignore-prefix` 合并。
+
 ## 开发
 
 ```bash
