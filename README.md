@@ -63,11 +63,20 @@ Treat stale sample variables as failures:
 env-sample-guard check --strict-stale
 ```
 
-Ignore known variables:
+Ignore known exact variables:
 
 ```bash
 env-sample-guard check --ignore CI --ignore NODE_ENV
 ```
+
+Ignore variables by namespace prefix:
+
+```bash
+env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
+```
+
+Prefix ignores exclude matching variable names from used, declared, missing, and
+stale results.
 
 ## Exit Codes
 

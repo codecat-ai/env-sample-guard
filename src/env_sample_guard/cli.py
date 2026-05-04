@@ -33,6 +33,7 @@ def _build_parser() -> argparse.ArgumentParser:
     check.add_argument("--json", action="store_true", dest="json_output")
     check.add_argument("--strict-stale", action="store_true")
     check.add_argument("--ignore", action="append", default=[])
+    check.add_argument("--ignore-prefix", action="append", default=[])
     return parser
 
 
@@ -40,7 +41,12 @@ def _run_check(args: argparse.Namespace) -> int:
     source_paths = args.source if args.source is not None else [Path.cwd()]
     declared = parse_sample_file(args.sample)
     used = scan_sources(source_paths)
-    result = compare_variables(used=used, declared=declared, ignored=set(args.ignore))
+    result = compare_variables(
+        used=used,
+        declared=declared,
+        ignored=set(args.ignore),
+        ignored_prefixes=set(args.ignore_prefix),
+    )
 
     if args.json_output:
         print(_to_json(result, sample=args.sample))

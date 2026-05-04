@@ -45,11 +45,19 @@ env-sample-guard check --json
 env-sample-guard check --strict-stale
 ```
 
-忽略已知变量：
+忽略已知的精确变量名：
 
 ```bash
 env-sample-guard check --ignore CI --ignore NODE_ENV
 ```
+
+按命名空间前缀忽略变量：
+
+```bash
+env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
+```
+
+前缀忽略会从已使用、已声明、缺失和过期结果中排除匹配的变量名。
 
 ## 开发
 
