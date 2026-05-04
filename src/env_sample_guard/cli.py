@@ -34,6 +34,13 @@ def _build_parser() -> argparse.ArgumentParser:
     check.add_argument("--strict-stale", action="store_true")
     check.add_argument("--ignore", action="append", default=[])
     check.add_argument("--ignore-prefix", action="append", default=[])
+    check.add_argument(
+        "--ignore-file",
+        action="append",
+        type=_ignore_file_path,
+        default=[],
+        metavar="PATH",
+    )
     return parser
 
 
@@ -41,11 +48,12 @@ def _run_check(args: argparse.Namespace) -> int:
     source_paths = args.source if args.source is not None else [Path.cwd()]
     declared = parse_sample_file(args.sample)
     used = scan_sources(source_paths)
+    ignored, ignored_prefixes = _read_ignore_files(args.ignore_file)
     result = compare_variables(
         used=used,
         declared=declared,
-        ignored=set(args.ignore),
-        ignored_prefixes=set(args.ignore_prefix),
+        ignored=set(args.ignore) | ignored,
+        ignored_prefixes=set(args.ignore_prefix) | ignored_prefixes,
     )
 
     if args.json_output:
@@ -58,6 +66,30 @@ def _run_check(args: argparse.Namespace) -> int:
     if args.strict_stale and result.stale:
         return 1
     return 0
+
+
+def _ignore_file_path(value: str) -> Path:
+    path = Path(value)
+    if not path.is_file():
+        raise argparse.ArgumentTypeError(f"ignore file not found: {path}")
+    return path
+
+
+def _read_ignore_files(paths: Sequence[Path]) -> tuple[set[str], set[str]]:
+    ignored: set[str] = set()
+    ignored_prefixes: set[str] = set()
+
+    for path in paths:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            value = line.strip()
+            if not value or value.startswith("#"):
+                continue
+            if value.endswith("*"):
+                ignored_prefixes.add(value[:-1])
+            else:
+                ignored.add(value)
+
+    return ignored, ignored_prefixes
 
 
 def _to_json(result: ComparisonResult, *, sample: Path) -> str:
