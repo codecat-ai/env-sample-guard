@@ -84,3 +84,51 @@ def test_cli_json_output_is_parseable_sorted_and_deterministic(
         "stale": [],
         "used": ["API_TOKEN", "DATABASE_URL"],
     }
+
+
+def test_cli_json_ignore_prefix_is_repeatable_and_filters_all_sets(
+    tmp_path: Path, capsys
+) -> None:
+    sample = tmp_path / ".env.example"
+    sample.write_text(
+        "DATABASE_URL=\nGITHUB_RUN_ID=\nAWS_DEFAULT_REGION=\nOLD_FLAG=\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "app.py").write_text(
+        "\n".join(
+            [
+                "import os",
+                "os.getenv('DATABASE_URL')",
+                "os.getenv('GITHUB_TOKEN')",
+                "os.getenv('AWS_REGION')",
+                "os.getenv('API_TOKEN')",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    code = main(
+        [
+            "check",
+            "--source",
+            str(tmp_path),
+            "--sample",
+            str(sample),
+            "--ignore-prefix",
+            "GITHUB_",
+            "--ignore-prefix",
+            "AWS_",
+            "--json",
+        ]
+    )
+
+    data = json.loads(capsys.readouterr().out)
+    assert code == 1
+    assert data == {
+        "declared": ["DATABASE_URL", "OLD_FLAG"],
+        "missing": ["API_TOKEN"],
+        "ok": False,
+        "sample": str(sample),
+        "stale": ["OLD_FLAG"],
+        "used": ["API_TOKEN", "DATABASE_URL"],
+    }

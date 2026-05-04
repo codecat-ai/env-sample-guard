@@ -48,11 +48,20 @@ env-sample-guard check --json
 env-sample-guard check --strict-stale
 ```
 
-既知の変数を無視します。
+既知の完全一致する変数名を無視します。
 
 ```bash
 env-sample-guard check --ignore CI --ignore NODE_ENV
 ```
+
+名前空間の接頭辞で変数を無視します。
+
+```bash
+env-sample-guard check --ignore-prefix GITHUB_ --ignore-prefix AWS_
+```
+
+接頭辞による無視は、使用済み、宣言済み、欠落、古い変数の結果から一致する
+変数名を除外します。
 
 ## 開発
 

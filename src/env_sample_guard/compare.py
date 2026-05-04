@@ -17,9 +17,13 @@ def compare_variables(
     used: set[str],
     declared: set[str],
     ignored: set[str],
+    ignored_prefixes: set[str] | None = None,
 ) -> ComparisonResult:
-    filtered_used = used - ignored
-    filtered_declared = declared - ignored
+    prefixes = tuple(ignored_prefixes or set())
+    filtered_used = {name for name in used - ignored if not name.startswith(prefixes)}
+    filtered_declared = {
+        name for name in declared - ignored if not name.startswith(prefixes)
+    }
     missing = filtered_used - filtered_declared
     stale = filtered_declared - filtered_used
 
