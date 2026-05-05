@@ -1,5 +1,8 @@
 # env-sample-guard
 
+[English](README.md) | [中文](README-zh.md) | [日本語](README-jp.md)
+
+
 `env-sample-guard` is a small CLI that checks whether environment variables used
 in source code are documented in a sample file such as `.env.example`.
 
