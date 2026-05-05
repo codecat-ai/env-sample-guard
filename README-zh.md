@@ -1,6 +1,6 @@
 # env-sample-guard
 
-[English](README.md) | [中文](README-zh.md) | [日本語](README-jp.md)
+[English](README.md) | [中文](README-zh.md) | [日本語](README-ja.md)
 
 
 `env-sample-guard` 是一个小型 CLI，用来检查源码中使用的环境变量是否已经写入

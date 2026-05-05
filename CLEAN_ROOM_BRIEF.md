@@ -47,7 +47,7 @@ Projects often add `DATABASE_URL`, `API_TOKEN`, or feature flags in code but for
 ## File structure
 - `src/env_sample_guard/` package with scanner, env sample parser, comparison, and CLI modules.
 - `tests/` pytest suite with fixture-based tests.
-- Standard open-source docs: README.md, README-zh.md, README-jp.md, LICENSE, CHANGELOG.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, issue templates, PR template.
+- Standard open-source docs: README.md, README-zh.md, README-ja.md, LICENSE, CHANGELOG.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, issue templates, PR template.
 - GitHub Actions CI running tests, ruff, format check, and package build.
 
 ## CI plan

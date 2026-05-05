@@ -1,6 +1,6 @@
 # env-sample-guard
 
-[English](README.md) | [中文](README-zh.md) | [日本語](README-jp.md)
+[English](README.md) | [中文](README-zh.md) | [日本語](README-ja.md)
 
 
 `env-sample-guard` is a small CLI that checks whether environment variables used

@@ -1,6 +1,6 @@
 # env-sample-guard
 
-[English](README.md) | [中文](README-zh.md) | [日本語](README-jp.md)
+[English](README.md) | [中文](README-zh.md) | [日本語](README-ja.md)
 
 
 `env-sample-guard` は、ソースコードで使われている環境変数が
